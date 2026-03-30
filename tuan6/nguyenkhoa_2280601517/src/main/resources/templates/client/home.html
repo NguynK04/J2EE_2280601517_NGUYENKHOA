@@ -19,6 +19,9 @@
 <nav class="navbar navbar-expand-lg navbar-dark px-4 mb-4 shadow">
     <a class="navbar-brand fw-bold" href="/home"><i class="fas fa-microchip me-2"></i>H Hightech Shop</a>
     <div class="ms-auto d-flex align-items-center">
+        <a th:href="@{/cart}" class="btn btn-warning rounded-pill me-3 fw-bold">
+            <i class="fas fa-shopping-cart"></i> Giỏ Hàng
+        </a>
         
         <div sec:authorize="!isAuthenticated()">
             <a th:href="@{/register}" class="btn btn-outline-warning me-2 fw-bold">Đăng ký</a>
@@ -43,19 +46,24 @@
     <h2 class="fw-bold mb-4 text-center">Sản Phẩm Nổi Bật</h2>
     <div class="row row-cols-1 row-cols-md-3 g-4">
         <div class="col" th:each="p : ${products}">
-            <a th:href="@{'/products/detail/' + ${p.id}}" class="text-dark">
-                <div class="card product-card h-100">
+            <div class="card product-card h-100">
+                <a th:href="@{'/products/detail/' + ${p.id}}" class="text-dark text-decoration-none">
                     <img th:src="${p.image}" class="card-img-top" onerror="this.src='https://via.placeholder.com/200?text=NO+IMG';">
                     <div class="card-body">
                         <h5 class="card-title fw-bold" th:text="${p.name}">Tên sản phẩm</h5>
                         <h5 class="text-danger fw-bold" th:text="${#numbers.formatInteger(p.price, 3, 'POINT')} + ' đ'">Giá</h5>
                         <span class="badge bg-secondary mt-2" th:text="${p.category != null ? p.category.name : 'Khác'}">Danh mục</span>
                     </div>
-                    <div class="card-footer bg-white border-0 text-center pb-3">
-                        <button class="btn btn-primary w-100 rounded-pill fw-bold">Xem chi tiết</button>
-                    </div>
+                </a>
+                <div class="card-footer bg-white border-0 d-grid gap-2">
+                    <a th:href="@{'/products/detail/' + ${p.id}}" class="btn btn-outline-primary rounded-pill fw-bold">Xem chi tiết</a>
+                    <form th:action="@{/cart/add/{id}(id=${p.id})}" method="post" class="m-0">
+                        <button type="submit" class="btn btn-success w-100 rounded-pill fw-bold">
+                            <i class="fas fa-shopping-cart me-1"></i> Thêm vào giỏ
+                        </button>
+                    </form>
                 </div>
-            </a>
+            </div>
         </div>
     </div>
 </div>

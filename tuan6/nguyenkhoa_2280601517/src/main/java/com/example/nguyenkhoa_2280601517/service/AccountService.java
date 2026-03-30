@@ -26,4 +26,8 @@ public class AccountService implements UserDetailsService {
                         .collect(Collectors.toList())
         );
     }
+    
+    public Account getAccountByUsername(String username) {
+        return accountRepository.findByLoginName(username).orElse(null);
+    }
 }
